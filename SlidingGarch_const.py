@@ -15,7 +15,7 @@ from statsmodels.tsa.stattools import adfuller
 from statsmodels.stats.diagnostic import acorr_ljungbox
 
 class SlidingGARCH:
-    def __init__(self, tickers=["^GSPC", "GLD", "USO"], start="2024-01-01", end="2025-01-01",
+    def __init__(self, tickers=["^GSPC", "GLD", "USO"], start="2020-01-01", end="2025-01-01",
                  freq="1d", return_type="log", mean="Zero", vol="GARCH",
                  p=1, o=None, q=1, dist="t", window=250, power=2.0):
         """
@@ -231,7 +231,7 @@ class SlidingGARCH:
             nu_list.append(nu_val)
             lam_val = res.params.get('lambda', np.nan)
             lam_list.append(lam_val)
-            cv = res.resid
+            cv = res.conditional_volatility
             cond_vol_list.append(cv.iloc[-1])
             std_resid = res.resid / res.conditional_volatility
             dist_obj = res.model.distribution
@@ -323,7 +323,7 @@ if __name__ == "__main__":
     # Create a SlidingGARCH object with multiple tickers
     sliding_model = SlidingGARCH(
         tickers=["^GSPC", "GLD", "USO"],
-        start="2024-01-01",
+        start="2020-01-01",
         end="2025-01-01",
         freq="1d",
         return_type="log",
